@@ -192,7 +192,7 @@
       const quiz = document.getElementById("quiz");
       let message = "";
 
-      if (score === 5) {
+      if (score === quizData.length) {
         message = "🎉 Tebrikler! Tüm soruları doğru yaptın. ‘Sübhâneke Ustası’sın!";
       } else if (score >= 3) {
         message = "👏 Güzel iş çıkardın! Birkaç soruda daha dikkatli olabilirsin.";
@@ -200,7 +200,7 @@
         message = "📘 Öğrenmek zaman alır, tekrar denemeye ne dersin?";
       }
 
-      quiz.innerHTML = `<h2>Skorun: ${score}/5</h2><p>${message}</p>`;
+      quiz.innerHTML = `<h2>Skorun: ${score}/${quizData.length}</h2><p>${message}</p>`;
       document.getElementById("nextBtn").disabled = true;
       document.getElementById("prevBtn").disabled = true;
       document.getElementById("restartBtn").style.display = "inline-block";
