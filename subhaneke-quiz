@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sübhâneke Duası Mini Quiz</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f0f8ff;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    .quiz-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .options button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #e6e6fa;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .options button:hover {
+      background-color: #dcdcff;
+    }
+    .feedback {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .next-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🕌 Sübhâneke Duası Mini Quiz</h1>
+  <div class="quiz-box">
+    <div id="quiz"></div>
+    <button id="nextBtn" class="next-btn" onclick="nextQuestion()">Sonraki Soru</button>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "1. Sübhâneke duası Kur’an’da aynen geçiyor mu?",
+        options: ["Evet", "Hayır"],
+        correct: 1,
+        explanation: "Hayır, Kur’an’da aynen geçmez ama anlamı Kur’an’a uygundur."
+      },
+      {
+        question: "2. Sübhâneke duası ne zaman okunur?",
+        options: ["Yatmadan önce", "Namazda, ilk tekbirden sonra", "Yemekten sonra"],
+        correct: 1,
+        explanation: "Namazın başında, Allah’a hamd ve tespih ederiz."
+      },
+      {
+        question: "3. Bu duayı okumak namazda hangi hükme girer?",
+        options: ["Farz", "Vacip", "Sünnet"],
+        correct: 2,
+        explanation: "Okunması sevaptır ama terk edilirse namaz bozulmaz."
+      },
+      {
+        question: "4. Aşağıdakilerden hangisi bu duanın anlamında yoktur?",
+        options: ["Allah’ı övmek", "Allah’ın adının mübarek olduğunu söylemek", "Peygamberi övmek"],
+        correct: 2,
+        explanation: "Sübhâneke duası yalnızca Allah’a övgü içerir."
+      },
+      {
+        question: "5. “Lâ ilâhe ğayruke” ne demektir?",
+        options: ["Allah’tan başka ilah yoktur", "Melekleri selamlarım", "Allah affedicidir"],
+        correct: 0,
+        explanation: "Bu ifade İslam’ın temel inancı olan tevhidi ifade eder."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const quiz = document.getElementById("quiz");
+      const q = quizData[currentQuestion];
+      document.getElementById("nextBtn").style.display = "none";
+
+      let html = `<div class="question">${q.question}</div><div class="options">`;
+      q.options.forEach((opt, idx) => {
+        html += `<button onclick="selectOption(${idx})">${opt}</button>`;
+      });
+      html += `</div><div class="feedback" id="feedback"></div>`;
+      quiz.innerHTML = html;
+    }
+
+    function selectOption(selected) {
+      const q = quizData[currentQuestion];
+      const feedback = document.getElementById("feedback");
+      const nextBtn = document.getElementById("nextBtn");
+
+      if (selected === q.correct) {
+        feedback.style.color = "green";
+        feedback.innerHTML = "✅ Doğru! " + q.explanation;
+        score++;
+      } else {
+        feedback.style.color = "red";
+        feedback.innerHTML = "❌ Yanlış! " + q.explanation;
+      }
+
+      const buttons = document.querySelectorAll(".options button");
+      buttons.forEach(btn => btn.disabled = true);
+      nextBtn.style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      const quiz = document.getElementById("quiz");
+      let message = "";
+
+      if (score === 5) {
+        message = "🎉 Tebrikler! Tüm soruları doğru yaptın. ‘Sübhâneke Ustası’sın!";
+      } else if (score >= 3) {
+        message = "👏 Güzel iş çıkardın! Birkaç soruda daha dikkatli olabilirsin.";
+      } else {
+        message = "📘 Öğrenmek zaman alır, tekrar denemeye ne dersin?";
+      }
+
+      quiz.innerHTML = `<h2>Skorun: ${score}/5</h2><p>${message}</p>`;
+      document.getElementById("nextBtn").style.display = "none";
+    }
+
+    // Oyunu başlat
+    loadQuestion();
+  </script>
+
+</body>
+</html>
